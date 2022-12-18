@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user, UserMixin
 from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
 from flask_gravatar import Gravatar
-
+from datetime import datetime
 
 from models.database import db, User, BlogPost, Comment
 
@@ -40,6 +40,12 @@ def admin_only(f):
     return decorated_function
 
 
+
+@app.context_processor
+def copyright_date():
+    return {'now': datetime.utcnow()}
+
+
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()
@@ -52,8 +58,6 @@ def register():
     if form.validate_on_submit():
 
         if User.query.filter_by(email=form.email.data).first():
-            print(User.query.filter_by(email=form.email.data).first())
-            #User already exists
             flash("You've already signed up with that email, log in instead!")
             return redirect(url_for('login'))
 

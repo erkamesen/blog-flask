@@ -23,13 +23,13 @@
 
 </head>
 
-<body>
+<body style="background-color: #f1f1f1;">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-dark" style="opacity: 0.8;" id="mainNav">
+  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-dark" style="opacity: 0.9;" id="mainNav" st>
     <div class="container">
-      <a class="navbar-brand" href="{{url_for('get_all_posts')}}" id="nav-baslik">Erkam's Blog</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="{{url_for('get_all_posts')}}" id="nav-baslik" >Erkam's Blog</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" style="background-color: #007acc;" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
       </button>
@@ -40,7 +40,7 @@
           </li>
           {% if not current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-link" href="{{ url_for('login') }}" style="color: #21a2f1;">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('register') }}">Register</a>
