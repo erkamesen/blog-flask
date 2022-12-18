@@ -43,9 +43,9 @@
             <a class="nav-link" href="{{ url_for('login') }}" style="color: #21a2f1;">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+            <a class="nav-link" href="{{ url_for('user.register') }}">Register</a>
           </li>
-          {% else: %}
+          {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('logout') }}" style="color: #8d534c;">{{ current_user.name }} - Log Out</a>
           </li>

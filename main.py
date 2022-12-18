@@ -10,6 +10,11 @@ from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
 from flask_gravatar import Gravatar
 from datetime import datetime
 
+
+from views import deneme
+from views import user
+
+
 from models.database import db, User, BlogPost, Comment
 
 app = Flask(__name__)
@@ -17,10 +22,10 @@ app.config.from_pyfile("config.py")
 
 ckeditor = CKEditor(app)
 Bootstrap(app)
-gravatar = Gravatar(app, size=100, rating='g', default='retro', force_default=False, force_lower=False, use_ssl=False, base_url=None)
+gravatar = Gravatar(app, size=100, rating='g', default='retro',
+                    force_default=False, force_lower=False, use_ssl=False, base_url=None)
 
-##CONNECT TO DB
-
+# CONNECT TO DB
 
 db.init_app(app)
 login_manager = LoginManager()
@@ -31,6 +36,7 @@ login_manager.init_app(app)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -40,43 +46,19 @@ def admin_only(f):
     return decorated_function
 
 
-
 @app.context_processor
 def copyright_date():
     return {'now': datetime.utcnow()}
+
+
+app.register_blueprint(deneme.bp)
+app.register_blueprint(user.bp)
 
 
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()
     return render_template("index.html", all_posts=posts, current_user=current_user)
-
-
-@app.route('/register', methods=["GET", "POST"])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-
-        if User.query.filter_by(email=form.email.data).first():
-            flash("You've already signed up with that email, log in instead!")
-            return redirect(url_for('login'))
-
-        hash_and_salted_password = generate_password_hash(
-            form.password.data,
-            method='pbkdf2:sha256',
-            salt_length=8
-        )
-        new_user = User(
-            email=form.email.data,
-            name=form.name.data,
-            password=hash_and_salted_password,
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        login_user(new_user)
-        return redirect(url_for("get_all_posts"))
-
-    return render_template("register.html", form=form, current_user=current_user)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -155,7 +137,6 @@ def add_new_post():
         return redirect(url_for("get_all_posts"))
 
     return render_template("make-post.html", form=form, current_user=current_user)
-
 
 
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])

@@ -33,11 +33,6 @@ class User(UserMixin, db.Model):
         return user_list
     
         
-    
-
-
-
-
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
     id = db.Column(db.Integer, primary_key=True)
