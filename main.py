@@ -1,91 +1,42 @@
 from flask import Flask, render_template, redirect, url_for, flash, abort
-from flask_sqlalchemy import SQLAlchemy
-from flask_bootstrap import Bootstrap
-from flask_ckeditor import CKEditor
 from datetime import date
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user, UserMixin
 from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
-from flask_gravatar import Gravatar
 from datetime import datetime
 
 
-from views import deneme
-from views import user
+from controller import admin_only
 
+from packages import bs, cke, gra, login_manager
+
+
+from views import home
+from views import user
 
 from models.database import db, User, BlogPost, Comment
 
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
-ckeditor = CKEditor(app)
-Bootstrap(app)
-gravatar = Gravatar(app, size=100, rating='g', default='retro',
-                    force_default=False, force_lower=False, use_ssl=False, base_url=None)
 
-# CONNECT TO DB
+### PACKAGES ###
 
+bs.init_app(app)
+cke.init_app(app)
+gra.init_app(app)
 db.init_app(app)
-login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-def admin_only(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if current_user.id != 1:
-            return abort(403)
-        return f(*args, **kwargs)
-    return decorated_function
+app.register_blueprint(user.bp)
+app.register_blueprint(home.bp)
 
 
 @app.context_processor
 def copyright_date():
     return {'now': datetime.utcnow()}
-
-
-app.register_blueprint(deneme.bp)
-app.register_blueprint(user.bp)
-
-
-@app.route('/')
-def get_all_posts():
-    posts = BlogPost.query.all()
-    return render_template("index.html", all_posts=posts, current_user=current_user)
-
-
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
-
-        user = User.query.filter_by(email=email).first()
-        # Email doesn't exist or password incorrect.
-        if not user:
-            flash("That email does not exist, please try again.")
-            return redirect(url_for('login'))
-        elif not check_password_hash(user.password, password):
-            flash('Password incorrect, please try again.')
-            return redirect(url_for('login'))
-        else:
-            login_user(user)
-            return redirect(url_for('get_all_posts'))
-    return render_template("login.html", form=form, current_user=current_user)
-
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('get_all_posts'))
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
@@ -134,7 +85,7 @@ def add_new_post():
         )
         db.session.add(new_post)
         db.session.commit()
-        return redirect(url_for("get_all_posts"))
+        return redirect(url_for("home.get_all_posts"))
 
     return render_template("make-post.html", form=form, current_user=current_user)
 
@@ -169,6 +120,12 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(url_for('get_all_posts'))
 
+
+""" 
+
+with app.app_context():
+    db.drop_all()
+    db.create_all() """
 
 if __name__ == "__main__":
     app.run()
