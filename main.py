@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user, UserMixin
 from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
 from datetime import datetime
-
+import requests
 
 from controller import admin_only
 
@@ -35,8 +35,21 @@ app.register_blueprint(home.bp)
 
 
 @app.context_processor
+def quotes():
+    response = requests.get("https://zenquotes.io/api/random")
+    quotes = response.json()[0]["q"]
+    quotes_owner = response.json()[0]["a"]
+    return {'quotes': quotes,"quotes_owner": quotes_owner }
+
+
+
+@app.context_processor
 def copyright_date():
     return {'now': datetime.utcnow()}
+
+@app.context_processor
+def month_name():
+    return {'month': date.today().strftime("%B")}
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
@@ -121,11 +134,14 @@ def delete_post(post_id):
     return redirect(url_for('get_all_posts'))
 
 
+
+
+
 """ 
 
 with app.app_context():
     db.drop_all()
-    db.create_all() """
-
+    db.create_all() 
+ """
 if __name__ == "__main__":
     app.run()

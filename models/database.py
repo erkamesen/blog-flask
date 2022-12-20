@@ -1,6 +1,7 @@
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from flask import request
 
 db = SQLAlchemy()
 
@@ -90,4 +91,54 @@ class Likes(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     parent_post = relationship("BlogPost", back_populates="likes")
     like_author = relationship("User", back_populates="likes")
+    
+    def __repr__(self) -> str:
+        return f"name: {self.name}"
+    
+    def get_dict(self):
+        return {column.name:getattr(self.column.name) for column in self.__table__Columns}
+    
+
+### TMDB ###  
+class Movie(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(250), nullable = False)
+    year = db.Column(db.Integer, nullable = False)
+    description = db.Column(db.String, nullable = False)
+    rating = db.Column(db.Float, nullable = False)
+    ranking = db.Column(db.Integer, nullable = False)
+    review = db.Column(db.String(400), nullable = False)
+    img_url = db.Column(db.String, nullable = False)
+    
+    @classmethod
+    def get_all_movies(cls):
+        """index html ye get methodunda yollanacak
+
+        Returns:
+            list: --
+        """
+        movies = cls.query.order_by(cls.rating).all()
+        
+        for i in range(len(movies)):
+            movies[i].ranking = len(movies) - i
+        db.session.commit()
+        
+        return movies
+        
+    
+    def delete_movie(self, id):
+        """Filmi silmek için kullan. template içine:
+        <a href="{{ url_for('delete_movie', id=movie.id)  }}" class="button delete-button">Delete</a>
+        ile args yolla ve fonksiyonda yakalayıp sil.
+
+        Args:
+            integer: _description_
+        """
+        movie_id = request.args.get("id")
+        movie = Movie.query.get(movie_id)
+        db.session.delete(movie)
+        db.session.commit()
+        
+
+    
     

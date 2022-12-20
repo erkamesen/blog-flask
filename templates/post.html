@@ -35,13 +35,15 @@
                         Post</a>
                 </div>
                 {% endif %}
-                <div class="container">
+
+         <!--        <div class="container">
                     <div class="row">
                         <div class="col-lg-8 col-md-10 mx-auto">
                             <div class="clearfix">
                                 <a class="btn btn-primary float-right" href="{{url_for('edit_post', post_id=post.id)}}">👍</a>
                             </div>
-
+ -->
+                <form class="row g-3">
 
 
                 <!--           Comments Area          -->
@@ -58,15 +60,17 @@
                             <div class="commenterImage">
                                 <img src="{{ comment.comment_author.email | gravatar }}"/> <!-- GRAVATAR -->
                             </div>
+                            <span class="date sub-text">{{comment.comment_author.name}}</span> <!-- AUTHOR NAME -->
                             <div class="commentText">
                                 {{comment.text|safe}}                                           <!-- COMMENT TEXT -->
-                                <span class="date sub-text">{{comment.comment_author.name}}</span> <!-- AUTHOR NAME -->
+                                
 
                             </div>
                         </li>
                     </ul>
                     {% endfor %}
                 </div>
+               
 
 
             </div>

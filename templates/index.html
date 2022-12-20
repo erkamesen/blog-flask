@@ -1,59 +1,100 @@
 {% include "header.html" %}
 
-  <!-- Page Header -->
-  <header class="masthead" 
-  style=
-  "background-image: url('{{ url_for('static', filename='img/background.jpg')}}');
-  height: 1000px;
-  border-radius: 0% 0% 20% 20%;">
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='img/background.jpg')}}');
+  height: 900px; border-radius:0% 0% 10% 10%">
 
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="site-heading">
-            <h1>Erkam's Blog</h1>
-            <span class="subheading">I am the ocean, I am the sea.</span>
-            <span class="subheading">There is a world inside of me.</span>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h1>Erkam's Blog</h1>
+          <span class="subheading text-secondary">I am the <span class="text-danger">ocean</span>, I am the <span class="text-danger">sea.</span></span></span>
+          <span class="subheading text-secondary"><big>There is a <span class="text-danger">world</span> inside of me. </big></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% if quotes %}
+<div class="card" style="background-color: #0c0b1b;color:antiquewhite;  border-radius:5px 20px; width:80%;margin:auto">
+  <div class="card-body" style="text-align: center;">
+    {{ quotes }} - <span class="text-secondary text-danger">{{ quotes_owner }}</span>
+  </div>
+</div>
+<br>
+<hr>
+<br>
+{% endif %}
+
+<!--  -->
+
+
+
+<div class="container">
+  <h1 style="text-align: center;">3 Good Films for {{ month }}</h1>
+  <div class="row px-4">
+    {% for movie in movies %}
+    <div class="col-md-4">
+      <div class="cards-wrapper mx-4">
+        <div class="card" style="width: 22rem;height:800px;">
+
+            <img src="{{ movie.img_url }}" alt="{{ movie.name }}" class="card-img-top" style="max-width: 100%; max-height: 100%;">
+
+          <div class="card-body" style="max-height: 380px;overflow: scroll;background-color:#0c0b1b;color:antiquewhite">
+            <h5 class="card-title"> <span style="align-items: center;">{{ movie.rating }}</span>⭐ <br> <br> <span class="text-danger">{{ movie.title}}</span> - {{ movie.year }} </h5>
+            <p class="card-text">{{ movie.description }}</p>
+            {% if current_user.id == 1 %}
+            <a href="{{ url_for('user.delete_movie', id=movie.id)  }}" class="button delete-button btn-primary">Delete</a>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
-  </header>
-
-  <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        {% for post in all_posts %}
-        <div class="post-preview">
-          <a href="{{ url_for('show_post', post_id=post.id) }}">
-            <h2 class="post-title">
-              {{post.title}}
-            </h2>
-            <h3 class="post-subtitle">
-              {{post.subtitle}}
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            {{post.author.name}}
-            on {{post.date}}
-            {% if current_user.id == 1: %}
-            <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
-            {% endif %}
-          </p>
-        </div>
-        {% endfor %}
+    {% endfor %}
+  </div>
+</div>
 
 
-        <!-- New Post -->
-        {% if current_user.id == 1: %}
-        <div class="clearfix">
-          <a class="btn btn-primary float-right" href="{{url_for('add_new_post')}}">Create New Post</a>
-        </div>
-        {% endif %}
+<hr style="border-style: dotted;border-width:30px; width:70%;margin-bottom: 10px;">
+
+
+<!--  -->
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      {% for post in all_posts %}
+      <div class="post-preview">
+        <a href="{{ url_for('show_post', post_id=post.id) }}">
+          <h2 class="post-title">
+            {{post.title}}
+          </h2>
+          <h3 class="post-subtitle">
+            {{post.subtitle}}
+          </h3>
+        </a>
+        <p class="post-meta">Posted by
+          {{post.author.name}}
+          on {{post.date}}
+          {% if current_user.id == 1: %}
+          <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
+          {% endif %}
+        </p>
       </div>
+      {% endfor %}
+
+      
+      <!-- New Post -->
+      {% if current_user.id == 1: %}
+      <div class="clearfix">
+        <a class="btn btn-primary float-right" href="{{url_for('add_new_post')}}">Create New Post</a>
+      </div>
+      {% endif %}
     </div>
   </div>
-  <hr>
+</div>
+<hr>
 
 {% include "footer.html" %}

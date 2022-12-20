@@ -1,0 +1,17 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+
+{% block content %}
+{% include "header.html" %}
+<div class="container">
+    <h1 class="heading">Select Movie</h1>
+    {% for data in datas%}
+  <p>
+    <a href="{{ url_for('user.added', id=data[0], title=data[1] ) }}"> {{ data[1] }}  - {{ data[2] }} </a>
+  </p>
+  {% endfor %}
+</div>
+{% include "footer.html" %}
+{% endblock %}

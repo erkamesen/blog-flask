@@ -45,9 +45,16 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('user.register') }}">Register</a>
           </li>
+
+
           {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('user.logout') }}" style="color: #8d534c;">{{ current_user.name }} - Log Out</a>
+          </li>
+          {% endif %}
+          {% if current_user.id == 1 %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.add') }}">Add Movie</a>
           </li>
           {% endif %}
           <li class="nav-item">
