@@ -5,14 +5,14 @@
 {% include "header.html" %}
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1484100356142-db6ab6244067?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80')">
+  <header class="masthead" style="background-image: url('https://p4.wallpaperbetter.com/wallpaper/678/787/797/bring-me-the-horizon-fantasy-art-digital-art-mask-wallpaper-thumb.jpg')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
-            <h1>Log In</h1>
-            <span class="subheading">Welcome Back!</span>
+            <h1>Login</h1>
+            <span class="subheading text-secondary">Welcome <span class="text-danger">Back!</span></span>
           </div>
         </div>
       </div>
@@ -20,7 +20,7 @@
   </header>
 
   <div class="container">
-    <div class="row">
+    <div class="row" style="align-items: center;">
 
       <div class="col-lg-8 col-md-10 mx-auto content">
       {% with messages = get_flashed_messages() %}
@@ -30,7 +30,8 @@
           {% endfor %}
         {% endif %}
       {% endwith %}
-        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "dark"}) }}
+      </form>
       </div>
     </div>
   </div>

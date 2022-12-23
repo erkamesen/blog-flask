@@ -18,7 +18,6 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(100))
     posts = relationship("BlogPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
-    likes = relationship("Likes", back_populates="like_author")
     
     def __repr__(self) -> str:
         return f"name: {self.name}"
@@ -46,13 +45,7 @@ class BlogPost(db.Model):
     body = db.Column(db.Text, nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
     comments = relationship("Comment", back_populates="parent_post")
-    likes = relationship("Likes", back_populates="parent_post")
 
-    def __repr__(self) -> str:
-        return f"name: {self.name}"
-    
-    def get_dict(self):
-        return {column.name:getattr(self.column.name) for column in self.__table__Columns}
     
     def __str__(self) -> str:
         return f"Post's Title: {self.title}, Post's Subtitle: {self.subtitle}, Post's Create Date: {self.date}, \
@@ -74,30 +67,9 @@ class Comment(db.Model):
     comment_author = relationship("User", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
 
-    def __repr__(self) -> str:
-        return f"name: {self.name}"
-    
-    def get_dict(self):
-        return {column.name:getattr(self.column.name) for column in self.__table__Columns}
-    
     def __str__(self) -> str:
         return f"Comment'Author: {self.comment_author}, Comment's Content: {self.text}"
-    
-    
-class Likes(db.Model):
-    __tablename__ = "likes"
-    id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
-    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    parent_post = relationship("BlogPost", back_populates="likes")
-    like_author = relationship("User", back_populates="likes")
-    
-    def __repr__(self) -> str:
-        return f"name: {self.name}"
-    
-    def get_dict(self):
-        return {column.name:getattr(self.column.name) for column in self.__table__Columns}
-    
+     
 
 ### TMDB ###  
 class Movie(db.Model):

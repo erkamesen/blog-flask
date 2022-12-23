@@ -36,13 +36,7 @@
                 </div>
                 {% endif %}
 
-         <!--        <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-10 mx-auto">
-                            <div class="clearfix">
-                                <a class="btn btn-primary float-right" href="{{url_for('edit_post', post_id=post.id)}}">👍</a>
-                            </div>
- -->
+
                 <form class="row g-3">
 
 
@@ -50,13 +44,16 @@
 
                 {{ ckeditor.load() }}
                 {{ ckeditor.config(name='comment_text') }}
-                {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
 
+                {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}, method="post") }}
+
+
+                
 
                 <div class="col-lg-8 col-md-10 mx-auto comment">
                     {% for comment in post.comments %}
                     <ul class="commentList">
-                        <li style="border-style: solid;">
+                        <li style="border-style: none none dashed none;padding:5% 60% 5% 5%">
                             <div class="commenterImage">
                                 <img src="{{ comment.comment_author.email | gravatar }}"/> <!-- GRAVATAR -->
                             </div>
@@ -79,5 +76,6 @@
 </article>
 
 <hr>
+
 {% include "footer.html" %}
 {% endblock %}

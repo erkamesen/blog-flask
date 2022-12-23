@@ -1,2 +1,2 @@
-from .funcs import admin_only, email_check
+from .funcs import admin_only
 from .api_controller import MOVIEAPI, MOVIEURL

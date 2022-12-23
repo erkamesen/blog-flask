@@ -2,13 +2,13 @@
 
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/background.jpg')}}');
-  height: 900px; border-radius:0% 0% 10% 10%">
+  height: 900px; border-radius: 0% 0% 10% 10%;">
 
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="site-heading">
-          <h1>Erkam's Blog</h1>
+          <h1 style="font-family: 'Gill Sans Extrabold', sans-serif;color:antiquewhite">Erkam's Blog</h1>
           <span class="subheading text-secondary">I am the <span class="text-danger">ocean</span>, I am the <span class="text-danger">sea.</span></span></span>
           <span class="subheading text-secondary"><big>There is a <span class="text-danger">world</span> inside of me. </big></span></span>
         </div>
@@ -45,7 +45,7 @@
             <h5 class="card-title"> <span style="align-items: center;">{{ movie.rating }}</span>⭐ <br> <br> <span class="text-danger">{{ movie.title}}</span> - {{ movie.year }} </h5>
             <p class="card-text">{{ movie.description }}</p>
             {% if current_user.id == 1 %}
-            <a href="{{ url_for('user.delete_movie', id=movie.id)  }}" class="button delete-button btn-primary">Delete</a>
+            <a href="{{ url_for('movie.delete_movie', id=movie.id)  }}" class="button delete-button btn-primary">Delete</a>
             {% endif %}
           </div>
         </div>
@@ -67,7 +67,7 @@
     <div class="col-lg-8 col-md-10 mx-auto">
       {% for post in all_posts %}
       <div class="post-preview">
-        <a href="{{ url_for('show_post', post_id=post.id) }}">
+        <a href="{{ url_for('admin.show_post', post_id=post.id) }}">
           <h2 class="post-title">
             {{post.title}}
           </h2>
@@ -79,7 +79,7 @@
           {{post.author.name}}
           on {{post.date}}
           {% if current_user.id == 1: %}
-          <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
+          <a href="{{url_for('admin.delete_post', post_id=post.id) }}">✘</a>
           {% endif %}
         </p>
       </div>
@@ -89,7 +89,7 @@
       <!-- New Post -->
       {% if current_user.id == 1: %}
       <div class="clearfix">
-        <a class="btn btn-primary float-right" href="{{url_for('add_new_post')}}">Create New Post</a>
+        <a class="btn btn-primary float-right" href="{{url_for('admin.add_new_post')}}">Create New Post</a>
       </div>
       {% endif %}
     </div>

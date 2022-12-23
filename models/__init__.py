@@ -1,2 +1,2 @@
-from .database import User, BlogPost, Comment, Likes ,db, Movie
+from .database import User, BlogPost, Comment, db, Movie
 

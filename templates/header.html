@@ -28,7 +28,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-md navbar-light fixed-top bg-dark" style="opacity: 0.9;" id="mainNav" st>
     <div class="container">
-      <a class="navbar-brand" href="{{url_for('home.get_all_posts')}}" id="nav-baslik" >Erkam's Blog</a>
+      <a class="navbar-brand" href="{{url_for('home.get_all_posts')}}" id="nav-baslik" >Erkam's Blog <strong><span>☂️</span></strong> </a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" style="background-color: #007acc;" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -52,16 +52,19 @@
             <a class="nav-link" href="{{ url_for('user.logout') }}" style="color: #8d534c;">{{ current_user.name }} - Log Out</a>
           </li>
           {% endif %}
+
+          
           {% if current_user.id == 1 %}
+          <!-- ADMIN ONLY -->
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('user.add') }}">Add Movie</a>
+            <a class="nav-link" href="{{ url_for('movie.add') }}">Add Movie</a>
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('about') }}">About</a>
+            <a class="nav-link" href="{{ url_for('user.about') }}">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+            <a class="nav-link" href="{{ url_for('user.contact') }}">Contact</a>
           </li>
         </ul>
       </div>
