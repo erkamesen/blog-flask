@@ -45,6 +45,11 @@ class BlogPost(db.Model):
     body = db.Column(db.Text, nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
     comments = relationship("Comment", back_populates="parent_post")
+    
+    def get_all_posts(cls):
+        posts = cls.query.all()
+        print(posts)
+        return posts
 
     
     def __str__(self) -> str:
@@ -78,36 +83,24 @@ class Movie(db.Model):
     year = db.Column(db.Integer, nullable = False)
     description = db.Column(db.String, nullable = False)
     rating = db.Column(db.Float, nullable = False)
-    ranking = db.Column(db.Integer, nullable = False)
-    review = db.Column(db.String(400), nullable = False)
     img_url = db.Column(db.String, nullable = False)
     
     @classmethod
     def get_all_movies(cls):
-        """index html ye get methodunda yollanacak
-
-        Returns:
-            list: --
-        """
-        movies = cls.query.order_by(cls.rating).all()
-        
-        for i in range(len(movies)):
-            movies[i].ranking = len(movies) - i
-        db.session.commit()
-        
+        movies = cls.query.all() 
+        print(movies)  
         return movies
+       
+       
+       
+    def add_movie_to_database(self):
         
+        db.session.add(self)
+        db.session.commit() 
     
-    def delete_movie(self, id):
-        """Filmi silmek için kullan. template içine:
-        <a href="{{ url_for('delete_movie', id=movie.id)  }}" class="button delete-button">Delete</a>
-        ile args yolla ve fonksiyonda yakalayıp sil.
-
-        Args:
-            integer: _description_
-        """
-        movie_id = request.args.get("id")
-        movie = Movie.query.get(movie_id)
+    @classmethod
+    def del_movie(cls, id):
+        movie = cls.query.get(id)
         db.session.delete(movie)
         db.session.commit()
         

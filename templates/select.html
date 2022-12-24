@@ -7,7 +7,7 @@
 {% include "header.html" %}
 <div class="container" style="text-align: center;">
     <h1 class="heading" style="text-align: center;">Select Movie</h1>
-  {% for data in datas%}
+  {% for data in movie_datas%}
   <div class="card-wrapper" style="align-items:center;margin:auto">
   <div class="card" style="width: 18rem;">
     <img src="https://image.tmdb.org/t/p/w500/{{ data[3] }}" class="card-img-top" alt="{{ data[1] }}">

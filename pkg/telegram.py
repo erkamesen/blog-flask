@@ -8,7 +8,7 @@ class Condition(Enum):
 
 class Logger:
 
-    def _init_(self, token, chat_id):
+    def __init__(self, token, chat_id):
         self._token = token
         self._chat_id = chat_id
         self._url = f"https://api.telegram.org/bot{token}/"
@@ -33,3 +33,8 @@ class Logger:
 
     def error(self, message):
         self.log(message, Condition.ERROR)
+        
+        
+        
+""" logger = Logger(token="5714462131:AAEaALnkxrDlHEY3qxY-CTJtBRgeNAuP6pY", chat_id="5641288499")
+logger.warning(message="HELOOOOO") """

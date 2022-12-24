@@ -10,33 +10,6 @@ admin = Blueprint("admin", __name__, template_folder="../templates", static_fold
 
 
 
-
-@admin.route("/post/<int:post_id>", methods=["GET", "POST"])
-def show_post(post_id):
-    form = CommentForm()
-    requested_post = BlogPost.query.get(post_id)
-    if request.args.get("comment_text"):
-        print("deneme")
-        if not current_user.is_authenticated:
-            flash("You need to login or register to comment.")
-            return redirect(url_for("user.login"))
-        
-
-        new_comment = Comment(
-            text=request.args.get("comment_text"),
-            comment_author=current_user,
-            parent_post=requested_post
-        )
-        
-        db.session.add(new_comment)
-        db.session.commit()
-        return redirect(url_for("show_post", post_id = post_id))
-    else:
-        return render_template("post.html", post=requested_post, form=form)
-
-
-
-
 @admin.route("/new-post", methods=["GET", "POST"])
 @admin_only
 def add_new_post():

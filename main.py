@@ -6,6 +6,8 @@ from flask_login import login_user, LoginManager, login_required, current_user, 
 from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
 from datetime import datetime
 import requests
+
+#PACKAGES
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
@@ -26,6 +28,7 @@ app.config.from_pyfile("config.py")
 
 ### PACKAGES ###
 
+
 bootstrap = Bootstrap(app)
 ckeditor = CKEditor(app)
 login_manager = LoginManager(app)
@@ -38,6 +41,8 @@ app.register_blueprint(user)
 app.register_blueprint(home)
 app.register_blueprint(movie)
 app.register_blueprint(admin)
+
+
 
 @app.context_processor
 def quotes():
