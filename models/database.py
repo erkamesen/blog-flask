@@ -33,6 +33,13 @@ class User(UserMixin, db.Model):
         user_list = self.query.get.all()
         return user_list
     
+    def get_by(cls, object):
+        cls.query.filter_by(object).first()
+        
+    def add_user(self):
+        db.session.add(self)
+        db.session.commit() 
+    
         
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
@@ -50,7 +57,11 @@ class BlogPost(db.Model):
         posts = cls.query.all()
         print(posts)
         return posts
-
+    
+    @classmethod
+    def get_post(cls, id):
+        requested_post = cls.query.get(id)
+        return requested_post
     
     def __str__(self) -> str:
         return f"Post's Title: {self.title}, Post's Subtitle: {self.subtitle}, Post's Create Date: {self.date}, \
@@ -74,16 +85,20 @@ class Comment(db.Model):
 
     def __str__(self) -> str:
         return f"Comment'Author: {self.comment_author}, Comment's Content: {self.text}"
+    
+    def add_comment(self):
+        db.session.add(self)
+        db.session.commit()
      
 
 ### TMDB ###  
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(250), nullable = False)
-    year = db.Column(db.Integer, nullable = False)
-    description = db.Column(db.String, nullable = False)
-    rating = db.Column(db.Float, nullable = False)
-    img_url = db.Column(db.String, nullable = False)
+    title = db.Column(db.String(250), default="-")
+    year = db.Column(db.Integer, default="-")
+    description = db.Column(db.String, default="-")
+    rating = db.Column(db.Float, default="-")
+    img_url = db.Column(db.String, default="-")
     
     @classmethod
     def get_all_movies(cls):

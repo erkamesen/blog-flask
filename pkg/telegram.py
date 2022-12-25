@@ -5,6 +5,7 @@ class Condition(Enum):
 
     WARNING = "⚠"
     ERROR = "💀"
+    INFO = "ℹ️"
 
 class Logger:
 
@@ -34,7 +35,7 @@ class Logger:
     def error(self, message):
         self.log(message, Condition.ERROR)
         
+    def info(self, message):
+        self.log(message, Condition.INFO)
         
         
-""" logger = Logger(token="5714462131:AAEaALnkxrDlHEY3qxY-CTJtBRgeNAuP6pY", chat_id="5641288499")
-logger.warning(message="HELOOOOO") """

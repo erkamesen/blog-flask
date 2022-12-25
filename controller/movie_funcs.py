@@ -2,24 +2,30 @@ import requests
 from dotenv import load_dotenv
 from models import Movie
 import os
-from flask import request
+from flask import request, render_template
+from pkg.telegram import Logger
 
 load_dotenv()
 
+logger = Logger(token=os.getenv("telegramApi"), chat_id=os.getenv("chatID"))
 
-def get_movies_from_tmdb(query):
+
+def get_movies(query):
     params = {
         "api_key": os.getenv('MOVIEAPI'),
         "query": query
     }
     response = requests.get(os.getenv("MOVIEURL"), params=params)
-    response.raise_for_status()
-    result = response.json()["results"]
-    
-    return result
+    if response.status_code > 400:
+        message = "I detected a problem for the TMDB API please check as soon as possible"
+        logger.warning(message=message)
+        return render_template("index.html")
+    else:
+        result = response.json()["results"]
+        return result
 
 
-def will_be_added_movie(title, year, description, rating, img_url):
+def add_movie(title, year, description, rating, img_url):
     movie = Movie()
     movie.title = title
     movie.year = year
@@ -28,42 +34,30 @@ def will_be_added_movie(title, year, description, rating, img_url):
     movie.img_url = img_url
     movie.add_movie_to_database()
  
-    
-    
   
-def movie_adder():
+def save_movie():
     movie_id = request.args.get("id")
     query = request.args.get("title")
-    for movie_info in get_movies_from_tmdb(query=query):
+    for movie_info in get_movies(query=query):
         if int(movie_info["id"]) == int(movie_id):
-            will_be_added_movie(
-                title=movie_info["original_title"],
-                year=movie_info["release_date"].split("-")[0],
-                description=movie_info["overview"],
-                rating=float(movie_info["vote_average"]),
-                img_url=f"https://image.tmdb.org/t/p/w500{movie_info['poster_path']}")
+            add_movie(
+                title=movie_info.get("original_title"),
+                year=movie_info.get("release_date"),
+                description=movie_info.get("overview"),
+                rating=float(movie_info.get("vote_average")),
+                img_url=f"https://image.tmdb.org/t/p/w500{movie_info.get('poster_path')}")
    
 
 
 def movie_deleter(id):
-    will_be_deleted = Movie()
-    will_be_deleted.del_movie(id=id)
-    
-    
-def movie_lister():
+    requested_movie = Movie()
+    requested_movie.del_movie(id=id)
+
+
+def select_movie():
     title = request.form.get("title")
-    result = get_movies_from_tmdb(query=title)
-    
-    title_list = [datas["original_title"]
-                      for datas in result]
-    try:
-        date_list = [datas["release_date"].split("-")[0]
-                    for datas in result]
-    except KeyError:
-        date_list = ["-" for i in range(len(title_list))]
-            
-    id_list = [datas["id"] for datas in result]
-    poster_list = [datas["poster_path"]
-                       for datas in result]
-    datas = zip(id_list, title_list, date_list, poster_list)   
-    return datas
+    result = get_movies(query=title)
+
+    movie_list = [[movie.get("id"), movie.get("original_title"), movie.get("release_date"),
+                movie.get("poster_path")] for movie in result]
+    return movie_list

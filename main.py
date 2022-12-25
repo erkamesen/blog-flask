@@ -1,17 +1,18 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort, request
+from flask import Flask, request
 from datetime import date
-from functools import wraps
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user, UserMixin
-from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
 from datetime import datetime
 import requests
+
+
+
 
 #PACKAGES
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
 from flask_login import LoginManager
+from flask_mail import Mail, Message
 
 
 
@@ -34,8 +35,10 @@ ckeditor = CKEditor(app)
 login_manager = LoginManager(app)
 gravatar = Gravatar(app, size=100, rating='g', default='retro',
                     force_default=False, force_lower=False, use_ssl=False, base_url=None)
+mail = Mail(app)
 
 db.init_app(app)
+
 
 app.register_blueprint(user)
 app.register_blueprint(home)
@@ -60,8 +63,6 @@ def month_name():
     return {'month': date.today().strftime("%B")}
 
 
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -73,4 +74,4 @@ def load_user(user_id):
     db.create_all()  """
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

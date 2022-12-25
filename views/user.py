@@ -1,10 +1,10 @@
 from flask import Blueprint, flash, redirect, url_for, render_template, request, abort
-from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm, CommentForm
-from models import User, Comment, db, BlogPost
+from werkzeug.security import check_password_hash
+from forms import RegisterForm, LoginForm, CommentForm, ContactForm
+from models import User, db, BlogPost
 from flask_login import login_user, current_user, logout_user
-import requests
-from pkg.telegram import Logger
+from controller.user_funcs import contact_me, new_comment, new_user
+
 
 user = Blueprint("user", __name__, template_folder="../templates",
                  static_folder="../static")
@@ -12,13 +12,17 @@ user = Blueprint("user", __name__, template_folder="../templates",
 
 @user.route("/about")
 def about():
-    return render_template("about.html", current_user=current_user)
+    return render_template("about.html")
 
 
-@user.route("/contact")
+@user.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html", current_user=current_user)
-
+    form = ContactForm()
+    if form.validate_on_submit():
+        contact_me()
+        return redirect(url_for("home.index"))
+    else:
+        return render_template("contact.html", form=form)
 
 
 
@@ -27,27 +31,17 @@ def show_post(post_id):
     form = CommentForm()
     requested_post = BlogPost.query.get(post_id)
     if request.args.get("comment_text"):
-        print("deneme")
         if not current_user.is_authenticated:
             flash("You need to login or register to comment.")
-            return redirect(url_for("user.login"))
-        
+            return redirect(url_for("user.login"))    
 
-        new_comment = Comment(
-            text=request.args.get("comment_text"),
-            comment_author=current_user,
-            parent_post=requested_post
-            )
+        new_comment(request.args.get("comment_text"),
+                    current_user,
+                    requested_post)
         
-        db.session.add(new_comment)
-        db.session.commit()
-        return redirect(url_for("admin.show_post", post_id = post_id))
+        return redirect(url_for("user.show_post", post_id = post_id))
     else:
         return render_template("post.html", post=requested_post, form=form)
-
-
-
-
 
 
 @user.route('/register', methods=["GET", "POST"])
@@ -58,20 +52,11 @@ def register():
             flash("You've already signed up with that email, log in instead!")
             return redirect(url_for("user.login"))
 
-        hash_and_salted_password = generate_password_hash(
-            form.password.data,
-            method='pbkdf2:sha256',
-            salt_length=8
-        )
-        new_user = User(
-            email=form.email.data,
-            name=form.name.data,
-            password=hash_and_salted_password,
-        )
-        db.session.add(new_user)
-        db.session.commit()
+        new_user(password = form.email.data,
+                 email = form.email.data,
+                 name = form.name.data)
         login_user(new_user)
-        return redirect(url_for("home.get_all_posts"))
+        return redirect(url_for("home.index"))
 
     return render_template("register.html", form=form, current_user=current_user)
 
@@ -84,7 +69,6 @@ def login():
         password = form.password.data
 
         user = User.query.filter_by(email=email).first()
-        # Email doesn't exist or password incorrect.
         if not user:
             flash("That email does not exist, please try again.")
             return redirect(url_for('user.login'))
@@ -93,14 +77,14 @@ def login():
             return redirect(url_for('user.login'))
         else:
             login_user(user)
-            return redirect(url_for('home.get_all_posts'))
+            return redirect(url_for('home.index'))
     return render_template("login.html", form=form)
 
 
 @user.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home.get_all_posts'))
+    return redirect(url_for('home.index'))
 
 
 

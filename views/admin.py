@@ -25,7 +25,7 @@ def add_new_post():
         )
         db.session.add(new_post)
         db.session.commit()
-        return redirect(url_for("home.get_all_posts"))
+        return redirect(url_for("home.index"))
 
     return render_template("make-post.html", form=form, current_user=current_user)
 
@@ -59,4 +59,4 @@ def delete_post(post_id):
     post_to_delete = BlogPost.query.get(post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
-    return redirect(url_for('home.get_all_posts'))
+    return redirect(url_for('home.index'))
