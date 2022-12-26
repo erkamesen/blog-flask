@@ -11,6 +11,10 @@ logger = Logger(token=os.getenv("telegramApi"), chat_id=os.getenv("chatID"))
 
 
 def get_movies(query):
+    """
+    This is the request function. If the status code is greater than 400,
+    the logger sends us a warning message.
+    """
     params = {
         "api_key": os.getenv('MOVIEAPI'),
         "query": query
@@ -26,6 +30,9 @@ def get_movies(query):
 
 
 def add_movie(title, year, description, rating, img_url):
+    """
+    Add movie to database.
+    """
     movie = Movie()
     movie.title = title
     movie.year = year
@@ -36,8 +43,13 @@ def add_movie(title, year, description, rating, img_url):
  
   
 def save_movie():
+    """
+    With the get_movies() function, we compare the movies we fetch from our API with the
+    id we get as args. then we add it to the database with add_movie()
+    """
     movie_id = request.args.get("id")
     query = request.args.get("title")
+    
     for movie_info in get_movies(query=query):
         if int(movie_info["id"]) == int(movie_id):
             add_movie(
@@ -47,9 +59,11 @@ def save_movie():
                 rating=float(movie_info.get("vote_average")),
                 img_url=f"https://image.tmdb.org/t/p/w500{movie_info.get('poster_path')}")
    
-
-
+   
 def movie_deleter(id):
+    """
+    Delete the requested movie with id
+    """
     requested_movie = Movie()
     requested_movie.del_movie(id=id)
 

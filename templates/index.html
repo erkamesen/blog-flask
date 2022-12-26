@@ -2,15 +2,17 @@
 
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/background.jpg')}}');
-  height: 900px; border-radius: 0% 0% 10% 10%;">
+  height: 900px">
 
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="site-heading">
           <h1 style="font-family: 'Gill Sans Extrabold', sans-serif;color:antiquewhite">Erkam's Blog</h1>
-          <span class="subheading text-secondary">I am the <span class="text-danger">ocean</span>, I am the <span class="text-danger">sea.</span></span></span>
-          <span class="subheading text-secondary"><big>There is a <span class="text-danger">world</span> inside of me. </big></span></span>
+          <span class="subheading text-secondary">I am the <span class="text-danger">ocean</span>, I am the <span
+              class="text-danger">sea.</span></span></span>
+          <span class="subheading text-secondary"><big>There is a <span class="text-danger">world</span> inside of me.
+            </big></span></span>
         </div>
       </div>
     </div>
@@ -31,21 +33,26 @@
 
 
 
+{% if movies %}
 <div class="container">
   <h1 style="text-align: center;">3 Good Films for {{ month }}</h1>
+
   <div class="row px-4">
     {% for movie in movies %}
     <div class="col-md-4">
       <div class="cards-wrapper mx-4">
-        <div class="card" style="width: 22rem;height:800px;">
+        <div class="card" style="width: 20rem;height:800px;">
 
-            <img src="{{ movie.img_url }}" alt="{{ movie.name }}" class="card-img-top" style="max-width: 100%; max-height: 100%;">
+          <img src="{{ movie.img_url }}" alt="{{ movie.name }}" class="card-img-top"
+            style="max-width: 100%; max-height: 100%;">
 
           <div class="card-body" style="max-height: 380px;overflow: scroll;background-color:#0c0b1b;color:antiquewhite">
-            <h5 class="card-title"> <span style="align-items: center;">{{ movie.rating }}</span>⭐ <br> <br> <span class="text-danger">{{ movie.title}}</span> - {{ movie.year }} </h5>
+            <h5 class="card-title"> <span style="align-items: center;">{{ movie.rating }}</span>⭐ <br> <br> <span
+                class="text-danger">{{ movie.title}}</span> - {{ movie.year }} </h5>
             <p class="card-text">{{ movie.description }}</p>
             {% if current_user.id == 1 %}
-            <a href="{{ url_for('movie.delete_movie', id=movie.id)  }}" class="button delete-button btn-primary">Delete</a>
+            <a href="{{ url_for('movie.delete_movie', id=movie.id)  }}"
+              class="button delete-button btn-primary">Delete</a>
             {% endif %}
           </div>
         </div>
@@ -53,8 +60,10 @@
     </div>
     {% endfor %}
   </div>
+
 </div>
 
+{% endif %}
 
 <hr style="border-style: dotted;border-width:30px; width:70%;margin-bottom: 10px;">
 
@@ -66,12 +75,12 @@
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
       {% for post in all_posts %}
-      <div class="post-preview">
+      <div class="post-preview" style="color:antiquewhite">
         <a href="{{ url_for('user.show_post', post_id=post.id) }}">
-          <h2 class="post-title">
+          <h2 class="post-title" style="color:antiquewhite">
             {{post.title}}
           </h2>
-          <h3 class="post-subtitle">
+          <h3 class="post-subtitle" style="color:antiquewhite">
             {{post.subtitle}}
           </h3>
         </a>
@@ -85,16 +94,17 @@
       </div>
       {% endfor %}
 
-      
+
       <!-- New Post -->
       {% if current_user.id == 1: %}
       <div class="clearfix">
-        <a class="btn btn-primary float-right" href="{{url_for('admin.add_new_post')}}">Create New Post</a>
+        <a class="btn btn-dark float-right" href="{{url_for('admin.add_new_post')}}">Create New Post</a>
       </div>
       {% endif %}
     </div>
   </div>
 </div>
 <hr>
+
 
 {% include "footer.html" %}

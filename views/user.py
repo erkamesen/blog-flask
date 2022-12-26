@@ -1,7 +1,7 @@
-from flask import Blueprint, flash, redirect, url_for, render_template, request, abort
+from flask import Blueprint, flash, redirect, url_for, render_template, request
 from werkzeug.security import check_password_hash
 from forms import RegisterForm, LoginForm, CommentForm, ContactForm
-from models import User, db, BlogPost
+from models import User, BlogPost
 from flask_login import login_user, current_user, logout_user
 from controller.user_funcs import contact_me, new_comment, new_user
 

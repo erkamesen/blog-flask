@@ -5,22 +5,31 @@
 
 {% block content %}
 {% include "header.html" %}
-<div class="container" style="text-align: center;">
-    <h1 class="heading" style="text-align: center;">Select Movie</h1>
-  {% for data in movie_datas%}
-  <div class="card-wrapper" style="align-items:center;margin:auto">
-  <div class="card" style="width: 18rem;">
-    <img src="https://image.tmdb.org/t/p/w500/{{ data[3] }}" class="card-img-top" alt="{{ data[1] }}">
-    <div class="card-body">
-      <h5 class="card-title">{{ data[1] }} - {{ data[2] }}</h5>
-      <a href="{{ url_for('movie.added', id=data[0], title=data[1] ) }}"> Add </a>
-    </div>
-    <br> <hr> <br>
-  </div>
-  </div>
-  {% endfor %}
 
-  
+<div class="header" style="width: 80px;">
 </div>
+<h1>ADD MOVIE</h1>
+
+
+<div class="container">
+  <div class="row px-4">
+    {% for data in movie_datas%}
+    <div class="col-md-4">
+      <div class="cards-wrapper mx-4">   
+          <div class="card" style="width: 22rem;height:550px;">
+            <img src="https://image.tmdb.org/t/p/w500/{{ data[3] }}" class="card-img-top" alt="{{ data[1] }}">
+            <div class="card-body" style="max-height: 380px;overflow: scroll;background-color:#879da3;color:antiquewhite" >
+              <h5 class="card-title">{{ data[1] }} - {{ data[2] }}</h5>
+              <a href="{{ url_for('movie.added', id=data[0], title=data[1] ) }}"> Add </a>
+            </div>
+            <br>
+            <hr> <br>
+        </div>
+      </div>     
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
 {% include "footer.html" %}
 {% endblock %}

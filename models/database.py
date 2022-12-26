@@ -3,7 +3,11 @@ from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
 
+
+
 db = SQLAlchemy()
+
+
 
 
 
@@ -55,7 +59,6 @@ class BlogPost(db.Model):
     
     def get_all_posts(cls):
         posts = cls.query.all()
-        print(posts)
         return posts
     
     @classmethod
@@ -102,8 +105,7 @@ class Movie(db.Model):
     
     @classmethod
     def get_all_movies(cls):
-        movies = cls.query.all() 
-        print(movies)  
+        movies = cls.query.all()  
         return movies
        
        

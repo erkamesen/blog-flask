@@ -5,35 +5,43 @@
 {% include "header.html" %}
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1531592937781-344ad608fabf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80')">
-    <div class="overlay"></div>
+  <div id="hero">
+    <video autoplay muted loop>
+      <source src="{{ url_for('static', filename='img/space.mp4')}}" type="video/mp4">
+    </video>
+  <div class="content">
+  <!-- Page Header -->
+  <header class="masthead">
+    <div class="overlay">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
-            <h1>Register</h1>
-            <span class="subheading">Start Contributing to the Blog!</span>
+            <h1> <strong>Register</strong> </h1>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="container">
+  <div class="container" style="color:aliceblue">
     <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        {% with messages = get_flashed_messages() %}
+
+      <div class="col-lg-8 col-md-10 mx-auto content" style="position: relative;top:300px;">
+      {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
            <p>{{ message }}</p>
           {% endfor %}
         {% endif %}
       {% endwith %}
-       {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
-
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "dark"}) }}
       </div>
     </div>
   </div>
+
+</div>
+</div>
 
 {% include "footer.html" %}
 {% endblock %}

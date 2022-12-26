@@ -16,7 +16,7 @@ def mail_sender(message):
     sender = MailSender("erkamesen789@gmail.com", token=os.getenv("SMTPTOKEN"))
     logger.info(message)
     try:
-        sender.send_message(message, "erkamesen789@yahoo.com")
+        sender.send_message(message, os.getenv("MAIL_RECEIVER"))
     except UnicodeEncodeError:
         pass
         

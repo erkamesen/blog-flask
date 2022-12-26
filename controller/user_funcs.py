@@ -1,12 +1,9 @@
 from forms import ContactForm
-from controller import mail_sender
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from controller.utils import mail_sender
 from models import Comment, User
 from werkzeug.security import generate_password_hash
 
 # -*- coding: utf-8 -*-
-
 
 def contact_me():
     form = ContactForm()
@@ -15,13 +12,13 @@ def contact_me():
     form_text = form.text.data
 
     message = "Name: {}\nEmail: {}\nContent: {}".format(form_name, form_email, form_text)
-    mail = MIMEMultipart('alternative')
-    mail = MIMEText(message, 'html', 'UTF-8')        
-    mail = mail.as_string()
-    mail_sender(mail)
+    mail_sender(message.encode())
     
-    
+       
 def new_comment(text, comment_author, parent_post):
+    """
+    Add new comment to database.
+    """
     comment = Comment()
     comment.text = text
     comment.comment_author = comment_author
@@ -30,7 +27,10 @@ def new_comment(text, comment_author, parent_post):
     
     
 def new_user(password, email, name):
-    
+    """
+    Add new user to database.
+    hash and salt the entered password before adding it to the database.
+    """
     hashed_password = generate_password_hash(
             password,
             method='pbkdf2:sha256',

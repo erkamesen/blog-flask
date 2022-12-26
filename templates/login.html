@@ -4,25 +4,29 @@
 {% block content %}
 {% include "header.html" %}
 
+  <div id="hero">
+    <video autoplay muted loop>
+      <source src="{{ url_for('static', filename='img/space.mp4')}}" type="video/mp4">
+    </video>
+  <div class="content">
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('https://p4.wallpaperbetter.com/wallpaper/678/787/797/bring-me-the-horizon-fantasy-art-digital-art-mask-wallpaper-thumb.jpg')">
-    <div class="overlay"></div>
+  <header class="masthead">
+    <div class="overlay">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
-            <h1>Login</h1>
-            <span class="subheading text-secondary">Welcome <span class="text-danger">Back!</span></span>
+            <h1> <strong>Login</strong> </h1>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="container">
+  <div class="container" style="color:aliceblue">
     <div class="row" style="align-items: center;">
 
-      <div class="col-lg-8 col-md-10 mx-auto content">
+      <div class="col-lg-8 col-md-10 mx-auto content" style="position: relative;top:300px;">
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
@@ -31,11 +35,11 @@
         {% endif %}
       {% endwith %}
         {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "dark"}) }}
-      </form>
       </div>
     </div>
   </div>
 
+</div>
+</div>
 
-{% include "footer.html" %}
 {% endblock %}

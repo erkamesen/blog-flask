@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from controller import get_posts_and_movies
+from controller.home_funcs import get_posts_and_movies
 
 
 home = Blueprint("home", __name__, template_folder="../templates", static_folder="../static")

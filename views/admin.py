@@ -1,8 +1,8 @@
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_login import current_user
-from forms import CommentForm, CreatePostForm
-from models import db, BlogPost, Comment
-from controller import admin_only
+from forms import CreatePostForm
+from models import db, BlogPost
+from controller.utils import admin_only
 from datetime import date
 
 
