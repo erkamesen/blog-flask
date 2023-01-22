@@ -7,7 +7,7 @@ Blog Project with Flask
 
 
 ## Features
-- Users can be register and login.
+- Users can register and login.
 - Users can send an e-mail from the contact section.
 - Admin can publish blog posts.
 - Users can comment on posts.
