@@ -42,3 +42,4 @@ def new_user(password, email, name):
             password=hashed_password,
         )
     new_user.add_user()   
+    return new_user

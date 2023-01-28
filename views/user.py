@@ -52,10 +52,10 @@ def register():
             flash("You've already signed up with that email, log in instead!")
             return redirect(url_for("user.login"))
 
-        new_user(password = form.email.data,
+        registered_user = new_user(password = form.email.data,
                  email = form.email.data,
                  name = form.name.data)
-        login_user(new_user)
+        login_user(registered_user)
         return redirect(url_for("home.index"))
 
     return render_template("register.html", form=form, current_user=current_user)
