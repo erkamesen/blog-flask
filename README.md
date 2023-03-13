@@ -1,5 +1,5 @@
 # blog-flask
-Blog Project with made it Flask
+Blog Project made with Flask
 
 ![Seçim_022](https://user-images.githubusercontent.com/120065120/213924156-8524d7e1-1ffe-4634-a06f-84da202c22a9.png)
 ![Seçim_023](https://user-images.githubusercontent.com/120065120/213924162-829570e2-de07-40d0-b333-92424b7dd1d1.png)
