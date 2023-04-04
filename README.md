@@ -20,8 +20,14 @@ To get started with the Blog, you'll need to have the following dependencies ins
 
 ## Usage
 Follow these steps:
-- Clone the repository: git clone https://github.com/erkamesen/blog-flask.git
-- Navigate to the directory: cd blog-flask
+- Clone the repository: 
+```
+git clone https://github.com/erkamesen/blog-flask.git
+```
+- Navigate to the directory: 
+```
+cd blog-flask
+```
 - Set telegram and SMTP API tokens
 - Install dependencies
 ```
