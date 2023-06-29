@@ -1,11 +1,6 @@
 # blog-flask
 Blog Project made with Flask
 
-![Seçim_022](https://user-images.githubusercontent.com/120065120/213924156-8524d7e1-1ffe-4634-a06f-84da202c22a9.png)
-![Seçim_023](https://user-images.githubusercontent.com/120065120/213924162-829570e2-de07-40d0-b333-92424b7dd1d1.png)
-![Seçim_021](https://user-images.githubusercontent.com/120065120/213924165-b2ed9b4a-5dbb-4ca9-a455-ff208f466d2e.png)
-
-
 ## Features
 - Users can register and login.
 - Users can send an e-mail from the contact section.
@@ -39,3 +34,7 @@ flask --app main run
 ```
 
 Blog project should now be running on your local machine at http://localhost:5000
+
+![Seçim_022](https://user-images.githubusercontent.com/120065120/213924156-8524d7e1-1ffe-4634-a06f-84da202c22a9.png)
+![Seçim_023](https://user-images.githubusercontent.com/120065120/213924162-829570e2-de07-40d0-b333-92424b7dd1d1.png)
+![Seçim_021](https://user-images.githubusercontent.com/120065120/213924165-b2ed9b4a-5dbb-4ca9-a455-ff208f466d2e.png)
